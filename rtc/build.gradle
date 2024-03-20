@@ -1,0 +1,76 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
+                groupId = 'com.xinbida.rtc'
+                artifactId = 'WKRTC'
+                version = '1.0.1'
+            }
+        }
+        repositories {
+            maven {
+                url = uri('../repository')
+            }
+        }
+    }
+}
+android {
+    namespace 'com.xinbida.rtc'
+    compileSdkVersion 33
+    buildToolsVersion "33.0.0"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            zipAlignEnabled false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    repositories {
+        flatDir {
+            dir 'libs'
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation files('src/jniLibs/libwebrtc.jar')
+    implementation('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+    compileOnly('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
+    implementation 'com.github.yhaolpz:FloatWindow:1.0.9'
+//    implementation(name:'owt_base',ext:'aar')
+//    implementation(name:'owt_conference',ext:'aar')
+//    implementation(name:'owt_p2p',ext:'aar')
+}
