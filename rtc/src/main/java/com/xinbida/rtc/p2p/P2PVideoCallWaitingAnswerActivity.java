@@ -94,7 +94,7 @@ public class P2PVideoCallWaitingAnswerActivity extends AppCompatActivity {
         //渲染本地流信息
         executor.execute(() -> {
             if (capturer == null) {
-                capturer = OwtVideoCapturer.create(1280, 720, 30, true, true);
+                capturer = OwtVideoCapturer.create(720, 1280, 24, true, true);
                 localStream = new LocalStream(capturer,
                         new MediaConstraints.AudioTrackConstraints());
             }

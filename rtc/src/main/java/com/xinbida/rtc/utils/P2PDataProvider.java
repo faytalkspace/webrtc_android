@@ -90,7 +90,7 @@ public class P2PDataProvider implements P2PClient.P2PClientObserver {
         initP2PClient();
         executor.execute(() -> {
             if (capturer == null) {
-                capturer = OwtVideoCapturer.create(320, 240, 30, true, true);
+                capturer = OwtVideoCapturer.create(720, 1280, 24, true, true);
                 localStream = new LocalStream(capturer,
                         new MediaConstraints.AudioTrackConstraints());
             }
